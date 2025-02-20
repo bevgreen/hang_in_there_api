@@ -13,3 +13,11 @@ price: 89.00,
 year: 2018,
 vintage: true,
 img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d")
+
+
+Poster.create(name: "SADNESS",
+description: "There are no more snacks in my house",
+price: 62.00,
+year: 1989,
+vintage: true,
+img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d")

@@ -14,9 +14,13 @@ class PosterSerializer
             img_url: poster.img_url
           }
         }
-      end
+      end,
+      meta: {
+        count: posters.length
+      }
     }
-  end
+  
+end
 
   def self.format_single_poster(poster)
     {

@@ -21,6 +21,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_010923) do
     t.integer "year"
     t.boolean "vintage"
     t.string "img_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

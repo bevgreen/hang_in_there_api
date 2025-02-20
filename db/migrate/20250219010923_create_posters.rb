@@ -7,6 +7,7 @@ class CreatePosters < ActiveRecord::Migration[7.1]
       t.integer :year
       t.boolean :vintage
       t.string :img_url
+      t.timestamps
       
     end
   end

@@ -3,7 +3,9 @@ class Api::V1::PostersController < ApplicationController
     if params[:sort] == "asc"
       posters = Poster.sort_by_asc 
     elsif params[:sort] == "desc"
-      posters = Poster.sort_by_desc  
+      posters = Poster.sort_by_desc 
+    elsif params[:name].present?
+      posters = Poster.filter_by_name(params[:name])
     else 
       posters = Poster.all  
     end

@@ -6,6 +6,10 @@ class Api::V1::PostersController < ApplicationController
       posters = Poster.sort_by_desc 
     elsif params[:name].present?
       posters = Poster.filter_by_name(params[:name])
+    elsif params[:max_price].present?
+      posters = Poster.max_by(params[:max_price])
+    elsif params[:min_price].present?
+      posters = Poster.min_by(params[:min_price])
     else 
       posters = Poster.all  
     end

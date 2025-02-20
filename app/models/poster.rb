@@ -13,4 +13,13 @@ class Poster < ApplicationRecord
     poster = posters.find_all { |poster| poster.name.include?(name_param.upcase) }
   end
 
+  def self.max_by(price_param)
+    posters = Poster.all
+    poster = posters.find_all { |poster| poster.price <= (price_param.to_f)}
+  end
+
+  def self.min_by(price_param)
+    posters = Poster.all
+    poster = posters.find_all { |poster| poster.price >= (price_param.to_f)}
+  end
 end

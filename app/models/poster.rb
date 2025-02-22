@@ -22,5 +22,5 @@ class Poster < ApplicationRecord
     posters = Poster.all
     poster = posters.find_all { |poster| poster.price >= (price_param.to_f)}
   end
-
+  
 end

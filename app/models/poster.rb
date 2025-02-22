@@ -10,7 +10,8 @@ class Poster < ApplicationRecord
 
   def self.filter_by_name(name_param)
     posters = Poster.all
-    poster = posters.find_all { |poster| poster.name.include?(name_param.upcase) }
+    found_posters = posters.find_all { |poster| poster.name.include?(name_param.upcase) }
+    poster = found_posters.sort_by { |poster| poster.name }
   end
 
   def self.filter_by_max_price(price_param)

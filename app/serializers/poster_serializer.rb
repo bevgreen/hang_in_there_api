@@ -8,7 +8,7 @@ class PosterSerializer
           attributes: {
             name: poster.name,
             description: poster.description,
-            price: poster.price,
+            price: poster.price.to_f,
             year: poster.year,
             vintage: poster.vintage,
             img_url: poster.img_url
@@ -31,7 +31,7 @@ end
           attributes: {
             name: poster.name,
             description: poster.description,
-            price: poster.price,
+            price: poster.price.to_f,
             year: poster.year,
             vintage: poster.vintage,
             img_url: poster.img_url

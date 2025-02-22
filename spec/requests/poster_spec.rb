@@ -165,5 +165,166 @@ RSpec.describe Poster, type: :request do
             expect{ Poster.find(poster.id) }.to raise_error(ActiveRecord::RecordNotFound)
         end
 
+        it "can sort posters in ascending order" do
+             Poster.create!(name: "DISASTER", 
+                            description: "It's too late to start now.", 
+                            price: 35.00, 
+                            year: 2023, 
+                            vintage: false, 
+                            img_url:"https://unsplash.com/photos/brown-brick-building-with-red-car-parked-on-the-side-mMV6Y0ExyIk"
+                            )
+             Poster.create!(name: "REGRET",
+                            description: "Hard work rarely pays off.",
+                            price: 89.00,
+                            year: 2018,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )            
+             Poster.create!(name: "SADNESS",
+                            description: "There are no more snacks in my house",
+                            price: 62.00,
+                            year: 1989,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )                
+            get "/api/v1/posters?sort=asc"
+            expect(response).to be_successful
+
+            posters = JSON.parse(response.body, symbolize_names: true)
+            
+            sorted_posters = posters[:data].map { |poster| poster[:attributes][:name] }
+  
+            expect(sorted_posters).to eq(["DISASTER", "REGRET", "SADNESS"])
+            
+
+
+
+
+        end
+
+        it "can sort posters in descending order" do
+            Poster.create!(name: "SADNESS",
+                            description: "There are no more snacks in my house",
+                            price: 62.00,
+                            year: 1989,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )
+            Poster.create!(name: "DISASTER", 
+                            description: "It's too late to start now.", 
+                            price: 35.00, 
+                            year: 2023, 
+                            vintage: false, 
+                            img_url:"https://unsplash.com/photos/brown-brick-building-with-red-car-parked-on-the-side-mMV6Y0ExyIk"
+                            )
+             Poster.create!(name: "REGRET",
+                            description: "Hard work rarely pays off.",
+                            price: 89.00,
+                            year: 2018,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )                            
+            get "/api/v1/posters?sort=desc"
+            expect(response).to be_successful
+
+            posters = JSON.parse(response.body, symbolize_names: true)
+            
+            sorted_posters = posters[:data].map { |poster| poster[:attributes][:name] }
+  
+            expect(sorted_posters).to eq(["REGRET", "DISASTER", "SADNESS"])
+
+        end
+
+        it "can filter posters by name" do
+            Poster.create!(name: "SADNESS",
+                            description: "There are no more snacks in my house",
+                            price: 62.00,
+                            year: 1989,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )
+            Poster.create!(name: "DISASTER", 
+                            description: "It's too late to start now.", 
+                            price: 35.00, 
+                            year: 2023, 
+                            vintage: false, 
+                            img_url:"https://unsplash.com/photos/brown-brick-building-with-red-car-parked-on-the-side-mMV6Y0ExyIk"
+                            )
+            Poster.create!(name: "REGRET",
+                            description: "Hard work rarely pays off.",
+                            price: 89.00,
+                            year: 2018,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )      
+            get "/api/v1/posters?name=re"
+            expect(response).to be_successful
+            posters = JSON.parse(response.body, symbolize_names: true)            
+            sorted_posters = posters[:data].map { |poster| poster[:attributes][:name] }  
+            expect(sorted_posters).to eq(["REGRET"])
+        end
+        it "can sort posters by max price" do
+            Poster.create!(name: "SADNESS",
+                            description: "There are no more snacks in my house",
+                            price: 62.00,
+                            year: 1989,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )
+            Poster.create!(name: "DISASTER", 
+                            description: "It's too late to start now.", 
+                            price: 35.00, 
+                            year: 2023, 
+                            vintage: false, 
+                            img_url:"https://unsplash.com/photos/brown-brick-building-with-red-car-parked-on-the-side-mMV6Y0ExyIk"
+                            )
+            Poster.create!(name: "REGRET",
+                            description: "Hard work rarely pays off.",
+                            price: 102.00,
+                            year: 2018,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )
+                            get "/api/v1/posters?max_price=99.00"
+                            expect(response).to be_successful
+                            posters = JSON.parse(response.body, symbolize_names: true)            
+                            sorted_posters = posters[:data].map { |poster| poster[:attributes][:name] }  
+                            expect(sorted_posters).to eq(["SADNESS", "DISASTER"])
+
+
+        end
+        it "can sort posters by min price" do
+            Poster.create!(name: "SADNESS",
+                            description: "There are no more snacks in my house",
+                            price: 62.00,
+                            year: 1989,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )
+            Poster.create!(name: "DISASTER", 
+                            description: "It's too late to start now.", 
+                            price: 35.00, 
+                            year: 2023, 
+                            vintage: false, 
+                            img_url:"https://unsplash.com/photos/brown-brick-building-with-red-car-parked-on-the-side-mMV6Y0ExyIk"
+                            )
+            Poster.create!(name: "REGRET",
+                            description: "Hard work rarely pays off.",
+                            price: 102.00,
+                            year: 2018,
+                            vintage: true,
+                            img_url:  "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                            )
+                            get "/api/v1/posters?min_price=99.00"
+                            expect(response).to be_successful
+                            posters = JSON.parse(response.body, symbolize_names: true)            
+                            sorted_posters = posters[:data].map { |poster| poster[:attributes][:name] }  
+                            expect(sorted_posters).to eq(["REGRET"])
+
+
+        end
+
+
+
     end
 end
